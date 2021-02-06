@@ -1,28 +1,36 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"strconv"
 	"strings"
 
-	"github.com/elastic/go-elasticsearch/esapi"
 	"github.com/elastic/go-elasticsearch/v8"
 )
 
 func IndexDocuments(documents Documents, es *elasticsearch.Client) {
+	const INDEX_NAME string = "nba"
+	_, err := es.Indices.Delete([]string{INDEX_NAME})
+	if err != nil {
+		panic(err)
+	}
+
+	mappingRaw, _ := ioutil.ReadFile("./mapping.json")
+	var data interface{}
+	_ = json.Unmarshal(mappingRaw, &data)
+	mapping, _ := json.Marshal(data)
+	_, err = es.Indices.Create(
+		INDEX_NAME,
+		es.Indices.Create.WithBody(strings.NewReader(string(mapping))))
+
 	for i, doc := range documents.Documents {
 		encoded, _ := json.Marshal(doc)
-		req := esapi.IndexRequest{
-			Index:      "test",
-			DocumentID: strconv.Itoa(i + 1),
-			Body:       strings.NewReader(string(encoded)),
-		}
-		_, err := req.Do(context.Background(), es)
-		if err != nil {
-			panic(err)
-		}
+		es.Index(INDEX_NAME,
+			strings.NewReader(string(encoded)),
+			es.Index.WithDocumentID(strconv.Itoa(i+1)),
+		)
 	}
 }
 

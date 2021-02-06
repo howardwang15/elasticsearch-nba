@@ -12,6 +12,6 @@ func CreateESClient() *elasticsearch.Client {
 		panic(err)
 	}
 	log.Println("Starting Elasticsearch client...")
-	log.Println("log.Println(elasticsearch.Version)")
+	log.Println(elasticsearch.Version)
 	return es
 }

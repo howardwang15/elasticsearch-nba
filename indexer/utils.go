@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	"log"
 )
 
 type Documents struct {
@@ -20,7 +19,6 @@ func ReadDocuments(filename string) Documents {
 			panic(err)
 		}
 		documents = append(documents, player)
-		log.Println(player)
 	}
 	return Documents{documents}
 }

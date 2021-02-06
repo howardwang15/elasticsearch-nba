@@ -1,0 +1,69 @@
+{
+    "mappings": {
+        "properties": {
+            "name": {
+                "type": "text"
+            },
+            "GP": {
+                "type": "integer"
+            },
+            "MIN": {
+                "type": "float"
+            },
+            "PTS": {
+                "type": "float"
+            },
+            "FGM": {
+                "type": "float"
+            },
+            "FGA": {
+                "type": "float"
+            },
+            "FG%": {
+                "type": "float"
+            },
+            "3PM": {
+                "type": "float"
+            },
+            "3PA": {
+                "type": "float"
+            },
+            "3P%": {
+                "type": "float"
+            },
+            "FTM": {
+                "type": "float"
+            },
+            "FTA": {
+                "type": "float"
+            },
+            "FT%": {
+                "type": "float"
+            },
+            "REB": {
+                "type": "float"
+            },
+            "AST": {
+                "type": "float"
+            },
+            "STL": {
+                "type": "float"
+            },
+            "BLK": {
+                "type": "float"
+            },
+            "TO": {
+                "type": "float"
+            },
+            "DD2": {
+                "type": "float"
+            },
+            "TD3": {
+                "type": "float"
+            },
+            "PER": {
+                "type": "float"
+            }
+        }
+    }
+}
