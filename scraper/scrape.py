@@ -10,11 +10,14 @@ display = Display(visible=0, size=(800, 600))
 display.start()
 
 os.environ["LANG"] = "en_US.UTF-8"
-DRIVER_PATH = './chromedriver'
+DRIVER_PATH = 'chromedriver'
 
 options = Options()
 options.headless = True
 options.add_argument("--window-size=1920,1200")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+
 driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 driver.get('https://www.espn.com/nba/stats/player/_/table')
 
@@ -68,7 +71,7 @@ for player, stat in zip(players, stats):
         info[attribute] = s
     data.append(json.dumps(info))
 
-with open('../data/players.json', 'w') as f:
+with open('/data/players.json', 'w') as f:
     f.write('\n'.join(data))
-
+print(data)
 driver.close()

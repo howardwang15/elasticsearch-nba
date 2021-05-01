@@ -37,6 +37,6 @@ func IndexDocuments(documents Documents, es *elasticsearch.Client) {
 func main() {
 	es := CreateESClient()
 	log.Println(es.Info())
-	documents := ReadDocuments("../data/players.json")
+	documents := ReadDocuments("/data/players.json")
 	IndexDocuments(documents, es)
 }
