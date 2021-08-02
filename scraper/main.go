@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 
 	"github.com/gocolly/colly"
@@ -43,30 +42,24 @@ type Attributes struct {
 
 func main() {
 	c := colly.NewCollector()
+	meta := make(map[string]map[string]string)
+	indexMeta := map[string]string{"_index": "players"}
+	meta["index"] = indexMeta
+	metaJSON, _ := json.Marshal(meta)
 	c.OnHTML("tbody", func(e *colly.HTMLElement) {
 		f, _ := os.Create("data.json")
 		defer f.Close()
 
 		e.ForEach("tr", func(playerIndex int, tr *colly.HTMLElement) {
-			// if playerIndex == 2 {
 			attributes := Attributes{}
 			attributes.Id = playerIndex
 			tr.ForEach("td", func(index int, td *colly.HTMLElement) {
 				SetAttribute(&attributes, index, td.Text)
 			})
 			jsonAttributes, _ := json.Marshal(attributes)
-			fmt.Println(string(jsonAttributes))
+			f.WriteString(string(metaJSON) + "\n")
 			f.WriteString(string(jsonAttributes) + "\n")
-			// }
 		})
 	})
-	c.OnHTML("tr.full_table.rowSum", func(e *colly.HTMLElement) {
-		fmt.Println(e)
-	})
-	c.OnHTML("table", func(e *colly.HTMLElement) {
-		rows := e.Attr("tr[class=full_table rowSum]")
-		fmt.Println(rows)
-	})
 	c.Visit("https://www.basketball-reference.com/leagues/NBA_2021_per_game.html")
-	fmt.Println(c)
 }
