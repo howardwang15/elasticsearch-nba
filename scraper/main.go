@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"os"
+	"path"
 
 	"github.com/gocolly/colly"
 )
@@ -47,7 +48,7 @@ func main() {
 	meta["index"] = indexMeta
 	metaJSON, _ := json.Marshal(meta)
 	c.OnHTML("tbody", func(e *colly.HTMLElement) {
-		f, _ := os.Create("data.json")
+		f, _ := os.Create(path.Join(os.Getenv("DATA_PATH"), "players.json"))
 		defer f.Close()
 
 		e.ForEach("tr", func(playerIndex int, tr *colly.HTMLElement) {
