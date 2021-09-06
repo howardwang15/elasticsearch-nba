@@ -43,10 +43,6 @@ type Attributes struct {
 
 func main() {
 	c := colly.NewCollector()
-	meta := make(map[string]map[string]string)
-	indexMeta := map[string]string{"_index": "players"}
-	meta["index"] = indexMeta
-	metaJSON, _ := json.Marshal(meta)
 	c.OnHTML("tbody", func(e *colly.HTMLElement) {
 		f, _ := os.Create(path.Join(os.Getenv("DATA_PATH"), "players.json"))
 		defer f.Close()
@@ -58,7 +54,6 @@ func main() {
 				SetAttribute(&attributes, index, td.Text)
 			})
 			jsonAttributes, _ := json.Marshal(attributes)
-			f.WriteString(string(metaJSON) + "\n")
 			f.WriteString(string(jsonAttributes) + "\n")
 		})
 	})
