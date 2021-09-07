@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"os"
-	"path"
 
 	"github.com/gocolly/colly"
 )
@@ -44,7 +44,9 @@ type Attributes struct {
 func main() {
 	c := colly.NewCollector()
 	c.OnHTML("tbody", func(e *colly.HTMLElement) {
-		f, _ := os.Create(path.Join(os.Getenv("DATA_PATH"), "players.json"))
+		dataPath := os.Getenv("DATA_PATH")
+		f, _ := os.Create(dataPath)
+		log.Println("Writing to: " + dataPath)
 		defer f.Close()
 
 		e.ForEach("tr", func(playerIndex int, tr *colly.HTMLElement) {
