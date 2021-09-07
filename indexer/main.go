@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -47,8 +48,10 @@ func IndexDocuments(documents Documents, es *elasticsearch.Client) {
 
 func main() {
 	godotenv.Load()
-	es := CreateESClient()
-	baseDataPath := os.Getenv("DATA_PATH")
-	documents := ReadDocuments(baseDataPath)
+	dataPath := os.Getenv("DATA_PATH")
+	esHost := os.Getenv("ELASTIC_HOST")
+	es := CreateESClient(esHost)
+	log.Println("Reading from: " + dataPath)
+	documents := ReadDocuments(dataPath)
 	IndexDocuments(documents, es)
 }

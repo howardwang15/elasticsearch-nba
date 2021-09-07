@@ -14,6 +14,9 @@ func ReadDocuments(filename string) Documents {
 	lines, _ := ioutil.ReadFile(filename)
 	documents := []Player{}
 	for _, line := range bytes.Split(lines, []byte{'\n'}) {
+		if string(line) == "" {
+			break
+		}
 		var player Player
 		if err := json.Unmarshal(line, &player); err != nil {
 			panic(err)

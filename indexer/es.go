@@ -10,13 +10,13 @@ import (
 	"github.com/elastic/go-elasticsearch/v8/estransport"
 )
 
-func CreateESClient() *elasticsearch.Client {
+func CreateESClient(esHost string) *elasticsearch.Client {
 	transport := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 
 	config := elasticsearch.Config{
-		Addresses: []string{"https://localhost:9200"},
+		Addresses: []string{esHost + ":9200"},
 		Username:  os.Getenv("ELASTIC_USERNAME"),
 		Password:  os.Getenv("ELASTIC_PASSWORD"),
 		Logger:    &estransport.ColorLogger{Output: os.Stdout},
